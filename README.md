@@ -1,2 +1,4 @@
-# hello-app
-Basic Flask app with Python. Want to use it as a starting point for other python web apps where I want visual output for some experiment or another.
+# Hitomezashi Stitch Patterns
+Web app to investigate hitomezashi stitch patterns.
+
+This is inspired by the Numberphile video https://www.youtube.com/watch?v=JbfhzlMk2eY
