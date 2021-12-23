@@ -71,3 +71,9 @@ socket.on('json', function(data) {
     el.call(updateCols, colOffsets, numRows);
     el.call(updateRows, rowOffsets, numCols);
 });
+
+for (let t=1;t<=10;t++) {
+    (new Promise((p) => setTimeout(p, 1000*t))).then(() => {
+	socket.emit('random');
+    });
+}

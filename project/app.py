@@ -41,13 +41,12 @@ def onrandom():
 
 @socketio.on('connect')
 def onconnect():
-    print('send random')
-    sendRandom(20,20)
+    print('client connected')
 
 
 @socketio.on('disconnect')
 def test_disconnect():
-    print('Client disconnected')
+    print('client disconnected')
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
