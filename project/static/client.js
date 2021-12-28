@@ -1,13 +1,3 @@
-var socket = io();
-
-// for debugging
-socket.on('connect', function() {
-    console.log('socket is open');
-});
-socket.on('disconnect', function() {
-    console.log('socket is closed');
-});
-
 const stitchWeight = 2
 const stitchLen = 40
 const buttonSize = 0.7  // with respect to stitchLen
@@ -95,7 +85,7 @@ function redraw() {
         .attr('cx', stitchLen/2)
         .attr('cy', stitchLen/2)
         .attr('r', stitchLen * buttonSize * 0.5 * 1.1)
-        .attr('onclick', (_,i) => `random()`)
+        .attr('onclick', (_,i) => `reset()`)
         .style('stroke', 'cyan')
         .style('fill', 'cyan');
     d3.select('#del-col')
@@ -132,21 +122,17 @@ function redraw() {
     el.call(updateRows, rowOffsets, numCols);
 }
 
-socket.on('json', function(data) {
+function reset() {
     // read data from server
-    colOffsets = JSON.parse(data.colOffsets);
-    rowOffsets = JSON.parse(data.rowOffsets);
+    colOffsets = [1,0,1,0,0,1,0,1,1,0,1,0,0,1,0,1];
+    rowOffsets = [1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1];
 
     // update field size
     numCols = colOffsets.length;
     numRows = rowOffsets.length;
-    redraw()
-});
-
-function random() {
-    socket.emit('random', numCols, numRows);
+    redraw();
 }
-random();
+reset();
 
 function toggleCol(i) {
     colOffsets[i] = 1 - colOffsets[i];
