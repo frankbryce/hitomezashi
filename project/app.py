@@ -36,7 +36,7 @@ def sendRandom(cols, rows):
 @socketio.on('random')
 def onrandom():
     print('send random')
-    sendRandom(20,20)
+    sendRandom(16,16)
 
 
 @socketio.on('connect')
