@@ -3,6 +3,7 @@ from flask_frozen import Freezer
 from app import app
 
 app = Flask(__name__)
+app.config['FREEZER_DESTINATION'] = './static-app/'
 freezer = Freezer(app)
 
 @app.route('/')
