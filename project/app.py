@@ -34,9 +34,9 @@ def sendRandom(cols, rows):
 
 # TODO how to send this from the client?
 @socketio.on('random')
-def onrandom():
+def onrandom(width, height):
     print('send random')
-    sendRandom(16,16)
+    sendRandom(width, height)
 
 
 @socketio.on('connect')

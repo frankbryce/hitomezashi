@@ -25,6 +25,7 @@ function updateCols(selection, offsets, numRows) {
         .attr('cx', (d,i) => (i+2) * stitchLen)
         .attr('cy', 0.5 * stitchLen)
         .attr('r', stitchLen * buttonSize * 0.5)
+        .attr('onclick', (_,i) => `toggleCol(${i})`)
         .style('stroke', 'black')
         .style('fill', d => d ? 'black' : 'white');
     let stitches = group.selectAll('rect')
@@ -55,6 +56,7 @@ function updateRows(selection, offsets, numCols) {
         .attr('cx', 0.5 * stitchLen)
         .attr('cy', (d,i) => (i+2) * stitchLen)
         .attr('r', stitchLen * buttonSize * 0.5)
+        .attr('onclick', (_,i) => `toggleRow(${i})`)
         .style('stroke', 'black')
         .style('fill', d => d ? 'black' : 'white');
     let stitches = group.selectAll('rect')
@@ -72,14 +74,19 @@ function updateRows(selection, offsets, numCols) {
         .style('fill', 'black');
 }
 
+let numCols = 16;
+let numRows = 16;
+let colOffsets = [];
+let rowOffsets = [];
+
 socket.on('json', function(data) {
     // read data from server
-    var colOffsets = JSON.parse(data.colOffsets);
-    var rowOffsets = JSON.parse(data.rowOffsets);
+    colOffsets = JSON.parse(data.colOffsets);
+    rowOffsets = JSON.parse(data.rowOffsets);
 
     // update field size
-    let numCols = colOffsets.length;
-    let numRows = rowOffsets.length;
+    numCols = colOffsets.length;
+    numRows = rowOffsets.length;
     let el = d3.select('#glfield')
         .attr('width', stitchLen * (numCols + 2) + stitchWeight)
         .attr('height', stitchLen * (numRows + 2) + stitchWeight)
@@ -97,8 +104,13 @@ socket.on('json', function(data) {
     el.call(updateRows, rowOffsets, numCols);
 });
 
-for (let t=1;t<=10;t++) {
-    (new Promise((p) => setTimeout(p, 1000*t))).then(() => {
-	socket.emit('random');
-    });
+socket.emit('random', numCols, numRows);
+
+function toggleCol(i) {
+    colOffsets[i] = 1 - colOffsets[i];
+    d3.select('#glfield').call(updateCols, colOffsets, numCols);
+}
+function toggleRow(i) {
+    rowOffsets[i] = 1 - rowOffsets[i];
+    d3.select('#glfield').call(updateRows, rowOffsets, numRows);
 }
