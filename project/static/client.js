@@ -98,13 +98,23 @@ socket.on('json', function(data) {
         .style('stroke', 'black')
         .style('stroke-width', stitchWeight)
         .style('fill', 'None');
+    d3.select('#refresh')
+        .attr('cx', stitchLen/2)
+        .attr('cy', stitchLen/2)
+        .attr('r', stitchLen * buttonSize * 0.5 * 1.1)
+        .attr('onclick', (_,i) => `random()`)
+        .style('stroke', 'cyan')
+        .style('fill', 'cyan');
 
     // update UI
     el.call(updateCols, colOffsets, numRows);
     el.call(updateRows, rowOffsets, numCols);
 });
 
-socket.emit('random', numCols, numRows);
+function random() {
+    socket.emit('random', numCols, numRows);
+}
+random();
 
 function toggleCol(i) {
     colOffsets[i] = 1 - colOffsets[i];
