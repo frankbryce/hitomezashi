@@ -3,8 +3,8 @@ from flask_frozen import Freezer
 from app import app
 
 app = Flask(__name__)
-app.config['FREEZER_DESTINATION'] = 'static-app/'
-app.config['FREEZER_BASE_URL'] = f'http://localhost/hitomezashi/projects/{app.config["FREEZER_DESTINATION"]}'
+app.config['FREEZER_DESTINATION'] = '../static-app/'
+app.config['FREEZER_BASE_URL'] = f'http://localhost/hitomezashi/static-app'
 freezer = Freezer(app)
 
 @app.route('/')
